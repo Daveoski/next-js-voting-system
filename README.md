@@ -1,40 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# Live Voting System (Next.js)
 
-## Getting Started
+A full-stack voting app built with **Next.js 16**, **React 19** and **TypeScript**. Votes go to a server-side API route, and the page shows a live tally, a leaderboard and a winner announcement.
 
-First, run the development server:
+**Live demo:** https://next-js-voting-system.vercel.app
+
+## Features
+
+- `GET /api/votes` returns the current tally; `POST /api/votes` casts a vote
+- Server-side duplicate-voter check (each voter can vote only once)
+- Typed error codes shared between the API and the UI
+- Live clock, total vote count, ranked leaderboard and winner modal
+- `useVotes` custom hook that keeps the API calls out of the components
+- The in-memory store survives hot reloads in development
+
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install        # or: npm install
+bun dev            # or: npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+> Votes are held in memory, so they reset when the server restarts. A database would be the next step for production use.
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Project structure
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+```text
+src/
+├── components/voting/   # VoteForm, TallyBoard, Leaderboard, TotalVotes, LiveClock, WinnerModal
+├── hooks/use-votes.ts   # Client-side data hook
+├── lib/voting.ts        # Shared types, candidates, ranking and winner logic
+├── server/vote-store.ts # In-memory vote store
+└── pages/
+    ├── index.tsx
+    └── api/votes.ts     # GET / POST votes
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Tech stack
 
-## Learn More
+Next.js 16 (Pages Router) · React 19 · TypeScript · Tailwind CSS v4 · Vercel
 
-To learn more about Next.js, take a look at the following resources:
+## License
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+[MIT](LICENSE)
